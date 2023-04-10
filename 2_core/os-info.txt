@@ -1,0 +1,4 @@
+x64
+win32
+nitro-pc
+Windows 10 Pro
