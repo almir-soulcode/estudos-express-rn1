@@ -113,6 +113,27 @@ app.get("/boasvindas", (req, res) => {
   }
 });
 
+const usuarios = require("./usuarios");
+
+app.get("/usuarios", (req, res) => {
+  res.json(usuarios);
+});
+
+app.get("/usuarios/:index", (req, res) => {
+  const index = Number(req.params.index);
+  const usuarioEncontrado = usuarios[index];
+
+  // Tratar a ausência do usuário
+  if (usuarioEncontrado) {
+    res.json(usuarioEncontrado);
+  } else {
+    // Not Found = 404
+    res.status(404).json({ message: "Usuário não encontrado" });
+  }
+});
+
+// Homework
+
 // Params = mais restrito a url
 // /cpfs/5
 
