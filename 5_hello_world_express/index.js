@@ -71,17 +71,57 @@ app.get("/cpfs/:numero", (req, res) => {
   res.end();
 });
 
+// Query // consulta
+app.get("/youtube", (req, res) => {
+  // const canal = req.query.canal;
+  const { canal, video, r } = req.query;
+  res.send(`Canal: ${canal}. Vídeo: ${video}. Res: ${r}`);
+});
+
+app.get("/nome", (req, res) => {
+  const { nome } = req.query;
+
+  if (nome) {
+    // truthy values
+    res.send(`Olá, ${nome}!`);
+  } else {
+    res.status(400).send("Envie o nome corretamente!");
+  }
+});
+
+app.get("/soma", (req, res) => {
+  const { num1, num2 } = req.query;
+
+  // Checa se os valores foram fornecidos
+  if (num1 !== undefined && num2 !== undefined) {
+    const soma = Number(num1) + Number(num2);
+    res.send(`A soma é: ${soma}`);
+  } else {
+    res.status(400).send("Forneça dois números válidos");
+  }
+});
+
+app.get("/boasvindas", (req, res) => {
+  const { lang } = req.query;
+
+  if (lang === "pt") {
+    res.send("Bem-vindo!");
+  } else if (lang === "en") {
+    res.send("Welcome!");
+  } else {
+    res.status(400).send("Idioma não suportado!");
+  }
+});
+
+// Params = mais restrito a url
+// /cpfs/5
+
+// Query = mais flexível, suja mais a url
+// /cpfs?numero=5
+// Mais propósito em filtrar dados
+
 // Inicializa a escuta de requisições do servidor
 app.listen(3000, () => {
   // roda sempre que o servidor inicia com sucesso
   console.log("Servidor rodando em http://localhost:3000/");
 });
-
-/** Exercício I: Crie dois arquivos html: inicio.html e
- * ajuda.html. Defina uma rota GET /inicio que lê o arquivo
- * inicio.html e responde com seu conteúdo. Defina outra
- * rota /ajuda que lê o arquivo ajuda.html e responde com
- * seu conteúdo. Dentro do arquivo inicio.html, deve haver
- * um link para a página de ajuda.
- * TEMPO = 15 min
- */
