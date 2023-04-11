@@ -1,5 +1,6 @@
 const express = require("express");
 const fs = require("fs");
+const CPF = require("cpf");
 
 // Define uma aplicação backend em Express
 // Recursos pré-configurados
@@ -36,7 +37,14 @@ app.get("/funcionarios/:cpf", (req, res) => {
   // const cpf = req.params.cpf;
   const { cpf } = req.params;
 
-  res.send(`Funcionário encontrado: ${cpf}`);
+  if (CPF.isValid(cpf)) {
+    // Por padrão status é 200
+    res.send("O cpf é válido!");
+  } else {
+    // 400 = quando o cliente manda informação
+    // inválida
+    res.status(400).send("O cpf é inválido!");
+  }
 });
 
 app.get("/pessoas/:nome/:empresa", (req, res) => {
@@ -44,6 +52,23 @@ app.get("/pessoas/:nome/:empresa", (req, res) => {
   // const empresa = req.params.empresa;
   const { nome, empresa } = req.params;
   res.send(`${nome} e ${empresa}`);
+});
+
+app.get("/imc/:peso/:altura", (req, res) => {
+  const peso = Number(req.params.peso);
+  const altura = Number(req.params.altura);
+  const imc = peso / altura ** 2;
+
+  res.send(`<p>IMC: ${imc.toFixed(2)}</p>`);
+});
+
+app.get("/cpfs/:numero", (req, res) => {
+  const numero = Number(req.params.numero);
+
+  for (let i = 0; i < numero; i++) {
+    res.write(`<p>${CPF.generate()}</p>`);
+  }
+  res.end();
 });
 
 // Inicializa a escuta de requisições do servidor
