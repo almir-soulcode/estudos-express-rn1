@@ -30,6 +30,22 @@ app.get("/ajuda", (req, res) => {
   res.send(arquivo.toString());
 });
 
+// Parâmetro de caminho/rota
+app.get("/funcionarios/:cpf", (req, res) => {
+  // req.params = guarda todos os parametros de rota
+  // const cpf = req.params.cpf;
+  const { cpf } = req.params;
+
+  res.send(`Funcionário encontrado: ${cpf}`);
+});
+
+app.get("/pessoas/:nome/:empresa", (req, res) => {
+  // const nome = req.params.nome;
+  // const empresa = req.params.empresa;
+  const { nome, empresa } = req.params;
+  res.send(`${nome} e ${empresa}`);
+});
+
 // Inicializa a escuta de requisições do servidor
 app.listen(3000, () => {
   // roda sempre que o servidor inicia com sucesso
