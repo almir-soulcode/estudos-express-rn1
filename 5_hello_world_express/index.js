@@ -119,7 +119,17 @@ app.get("/usuarios", (req, res) => {
   res.json(usuarios);
 });
 
+// /usuarios/novo
+
+app.get("/usuarios/novo", (req, res) => {
+  const { nome, email } = req.query;
+  const novoUsuario = { nome: nome, email: email };
+  usuarios.push(novoUsuario);
+  res.status(201).json({ message: "Usuário adicionado" });
+});
+
 app.get("/usuarios/:index", (req, res) => {
+  console.log(req.params.index);
   const index = Number(req.params.index);
   const usuarioEncontrado = usuarios[index];
 
@@ -133,6 +143,16 @@ app.get("/usuarios/:index", (req, res) => {
 });
 
 // Homework
+app.get("/usuarios/email/:email", (req, res) => {
+  const { email } = req.params; // parâmetro de rota
+  const usuarioEncontrado = usuarios.find((el) => el.email === email);
+
+  if (usuarioEncontrado) {
+    res.json(usuarioEncontrado);
+  } else {
+    res.status(404).json({ message: "Usuário não encontrado" });
+  }
+});
 
 // Params = mais restrito a url
 // /cpfs/5
